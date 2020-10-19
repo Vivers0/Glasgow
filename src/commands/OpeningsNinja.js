@@ -18,11 +18,15 @@ class OpeningsNinja {
                         'Content-Type': 'application/json'
                     }
                 })
+                let obj = {}
             
                 let result = request.data;
                 const dom = new JSDOM(result)
                 let document = dom.window.document;
-                resolve(document.querySelector("video").src)
+                obj.video = document.querySelector("video").src
+                obj.name = document.querySelector(".media-body.align-self-center").firstChild.textContent
+                obj.anime = document.querySelector("#__layout > div > div.d-flex.flex-column.flex-sm-row.no-gutters.position-relative.content.position-relative > div.show-nav-container.col.col-md-auto.overflow-hidden > div > div:nth-child(1) > a:nth-child(1) > h1").textContent
+                resolve(obj)
             } catch(err) {
             resolve("404")
             }      

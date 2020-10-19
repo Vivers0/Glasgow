@@ -1,17 +1,19 @@
 {
   "name": "GlasgowBot",
-  "version": "1.0.0",
-  "description": "",
+  "version": "alpha 1.0.0",
+  "description": "Disocrd bot with anime information",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "",
+  "author": "Vivers <vivers.savva@gmail.com>",
   "license": "ISC",
   "dependencies": {
     "axios": "^0.20.0",
     "discord.js": "^12.3.1",
+    "dotenv": "^8.2.0",
+    "jikanjs": "^0.7.0",
     "jsdom": "^16.4.0"
   }
 }
