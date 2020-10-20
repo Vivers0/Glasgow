@@ -13,20 +13,20 @@ class Embed {
     songsCommand(type, number, title) {
         let nameTitle = title.replace(/-!,/g, '-').toLowerCase();
         createAndGetLink(type, number, nameTitle).then(req => {
-            if (req === "404") {
-                let embed = new MessageEmbed()
-                    .setDescription("Error, Сould not find the requested song. Try to enter the full anime name")
-                    .setColor("RED")
+             if (req === "404") {
+                 let embed = new MessageEmbed()
+                     .setDescription("Error, Сould not find the requested song. Try to enter the full anime name")
+                     .setColor("RED")
 
-                this.message.channel.send(embed)
-            } else {
-                let embed = new MessageEmbed()
-                    .setAuthor(req.name.replace(req.name.split(" ")[0], ''))
-                    .addField("Anime", req.anime, true)
-                    .addField("Type", type.toUpperCase(), true)
-                    .addField("Song #", number, true)
-                    .setColor("BLUE")
-                    .setFooter("g!music [Type] [Number Song] [Name Anime]")
+                 this.message.channel.send(embed)
+             } else {
+                 let embed = new MessageEmbed()
+                     .setAuthor(req.name.replace(req.name.split(" ")[0], ''))
+                     .addField("Anime", req.anime, true)
+                     .addField("Type", type.toUpperCase(), true)
+                     .addField("Song #", number, true)
+                     .setColor("BLUE")
+                     .setFooter("g!music [Type] [Number Song] [Name Anime]")
 
                 this.message.channel.send(req.video, embed)
             }
@@ -50,7 +50,7 @@ class Embed {
                             .setAuthor(req.name)
                             .setThumbnail(req.image)
                             .setDescription(`Score: **${req.score}**`)
-                            .addField("Episodes", checkOngoing(req.episodes.replace(/\n  Episodes:\n  /i,'').split("\n")[0]), true)
+                            .addField("Episodes", req.episodes ? req.episodes: "Ongoing", true)
                             .addField("Season", req.season, true)
                             .addField("Type", req.type, false)  
                             .addField("Studio", req.studio, true)
@@ -59,13 +59,6 @@ class Embed {
                             .setFooter("g!anime [Anime]")
                             .setColor("BLUE")
                             
-                        function checkOngoing(str) {
-                            if (str === "Unknown") {
-                                return 'Ongoing'
-                            } else {
-                                return str;
-                            }
-                        }
 
                         function editArrayMusic(array) {
                             for (let i=0; i<=array.length; i++) {
@@ -77,8 +70,7 @@ class Embed {
                         msg.edit(embed)
                     })
                 }
-            })
-            
+            })   
         })
     }
 

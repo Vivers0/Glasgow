@@ -11,6 +11,7 @@ client.on("ready", () => {
 })
 
 client.on("message", message => {
+    if (!message.content.startsWith(process.env.PREFIX)) return;
     const embed = new Embed(message)
     const [name, ...args] = message.content.slice(2).split(/ +/);
 
