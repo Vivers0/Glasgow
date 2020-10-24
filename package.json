@@ -1,6 +1,6 @@
 {
   "name": "GlasgowBot",
-  "version": "alpha 1.0.0",
+  "version": "1.2.0",
   "description": "Disocrd bot with anime information",
   "main": "index.js",
   "scripts": {

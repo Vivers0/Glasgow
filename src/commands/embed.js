@@ -1,9 +1,10 @@
-const {  MessageEmbed, Message } = require("discord.js")
+const { MessageEmbed } = require("discord.js")
 const { OpeningsNinja } = require("./OpeningsNinja")
 const { MyAnimeList } = require("./MyAnimeList")
 const { createAndGetLink } = new OpeningsNinja()
-const { getAnimeInfoForMusic } = new MyAnimeList()
+const MAL = new MyAnimeList()
 const jikan = require('jikanjs');
+
 
 class Embed {
     constructor(message) {
@@ -35,7 +36,7 @@ class Embed {
 
     animeCommand(name, id) {
         jikan.search("anime", name).then(res => {
-            getAnimeInfoForMusic(res.results[0].url).then(req => {
+            MAL.getAnimeInfoForMusic(res.results[0].url).then(req => {
                 if (req === "404") {
                     this.message.channel.messages.fetch(id).then(msg => {
                         let embed = new MessageEmbed()
@@ -45,27 +46,35 @@ class Embed {
                     msg.edit(embed)
                     })
                 } else {
-                    this.message.channel.messages.fetch(id).then(msg => {
+                    
+                    this.message.channel.messages.fetch(id).then(async msg => {
+                        const type = await MAL.typeAnime()
+                        const season = await MAL.seasonAnime()
+                        const episodes = await MAL.episodesAnime()
+                        const musicOP = await MAL.musicOpAnime()
+                        const musicED = await MAL.musicEdAnime()
+                        const music = (array) => {
+                            for (let i=0; i<=array.length; i++) {
+                                if (array[i].indexOf('') == -1) delete array[i];
+                                return array.map(m => m)
+                            }
+                        }
                         let embed = new MessageEmbed()
                             .setAuthor(req.name)
                             .setThumbnail(req.image)
-                            .setDescription(`Score: **${req.score}**`)
-                            .addField("Episodes", req.episodes ? req.episodes: "Ongoing", true)
-                            .addField("Season", req.season, true)
-                            .addField("Type", req.type, false)  
-                            .addField("Studio", req.studio, true)
-                            .addField("Opening Themes", editArrayMusic(req.op).map(m=>m))
-                            .addField("Ending Themes", editArrayMusic(req.ed).map(m=>m))
+                            .setDescription(`
+                                **MyAnimeList**: [Click](${res.results[0].url})\n
+                                **Score**: ${req.score}\n
+                                **Episodes**: ${episodes}\n
+                                **Season**: ${season}\n
+                                **Type**: ${type}\n
+                                **Studio**: ${req.studio}\n
+                                `)
+                            .addField("Opening Themes", music(musicOP))
+                            .addField("Ending Themes", music(musicED))
                             .setFooter("g!anime [Anime]")
                             .setColor("BLUE")
                             
-
-                        function editArrayMusic(array) {
-                            for (let i=0; i<=array.length; i++) {
-                                if (array[i].indexOf('') == -1) delete array[i];
-                                return array
-                            }
-                        }
 
                         msg.edit(embed)
                     })
