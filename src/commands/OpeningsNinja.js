@@ -1,10 +1,12 @@
 const axios = require('axios')
 const jsdom = require("jsdom");
+const { search } = require("jikanjs")
 const { JSDOM } = jsdom;
 
-class OpeningsNinja {
-    constructor() {
 
+class OpeningsNinja {
+    constructor(message) {
+        this.message = message
     }
 
     createAndGetLink(type, number, text) {
@@ -31,8 +33,9 @@ class OpeningsNinja {
             resolve("404")
             }      
         })
-    }
+    } 
+
 }
 
 
-module.exports = { OpeningsNinja };
+module.exports = OpeningsNinja
