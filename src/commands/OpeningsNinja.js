@@ -1,5 +1,6 @@
 const axios = require('axios')
 const jsdom = require("jsdom");
+const { MessageEmbed } = require("discord.js")
 const { search } = require("jikanjs")
 const { JSDOM } = jsdom;
 
@@ -35,6 +36,28 @@ class OpeningsNinja {
         })
     } 
 
+    async generateEmbed(type, number, title) {
+        let nameTitle = title.replace(/-!,/g, '-').toLowerCase();
+        this.createAndGetLink(type, number, nameTitle).then(req => {
+             if (req === "404") {
+                 let embed = new MessageEmbed()
+                     .setDescription("Error, Сould not find the requested song. Try to enter the full anime name")
+                     .setColor("RED")
+
+                 this.message.channel.send(embed)
+             } else {
+                 let embed = new MessageEmbed()
+                     .setAuthor(req.name.replace(req.name.split(" ")[0], ''))
+                     .addField("Anime", req.anime, true)
+                     .addField("Type", type.toUpperCase(), true)
+                     .addField("Song #", number, true)
+                     .setColor("BLUE")
+                     .setFooter("g!music [Type] [Number Song] [Name Anime]")
+
+                this.message.channel.send(req.video, embed)
+            }
+        })
+    }
 }
 
 

@@ -4,7 +4,8 @@ const jikanjs  = require('jikanjs');
 const { JSDOM } = jsdom;
 
 class MyAnimeList {
-    constructor() {
+    constructor(message) {
+        this.message = message
         this.document = ""
     }
      
@@ -86,6 +87,8 @@ class MyAnimeList {
         }
         return arr;
     }
+
+   
 }
 
 
