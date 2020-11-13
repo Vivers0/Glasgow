@@ -3,4 +3,5 @@ node_modules
 test.js
 .env
 src/local-index.js
-pages.tvt
+pages.txt
+src/commands/Themes.*

@@ -1,7 +1,7 @@
 const axios = require('axios')
 const jsdom = require("jsdom");
 const { MessageEmbed } = require("discord.js")
-const { search } = require("jikanjs")
+const jikan = require("jikanjs")
 const { JSDOM } = jsdom;
 
 
@@ -34,10 +34,10 @@ class OpeningsNinja {
             resolve("404")
             }      
         })
-    } 
+    }     
 
     async generateEmbed(type, number, title) {
-        let nameTitle = title.replace(/-!,/g, '-').toLowerCase();
+        let nameTitle = this.rightNameAnime(title)
         this.createAndGetLink(type, number, nameTitle).then(req => {
              if (req === "404") {
                  let embed = new MessageEmbed()
@@ -56,6 +56,14 @@ class OpeningsNinja {
 
                 this.message.channel.send(req.video, embed)
             }
+        })
+    }
+
+    async rightNameAnime(title) {
+        jikan.search('anime', title).then(res => {
+           let name = res.results[0].title
+           let rep = name.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, '')
+           return rep.split(' ').join('-').toLowerCase()
         })
     }
 }

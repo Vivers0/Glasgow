@@ -21,7 +21,7 @@ client.on("message", message => {
         if (!(typeof(args[0]) !== String) | (args[0].length > 2) | !args[0]) return message.channel.send("Error, Сould not find the requested song. Try to enter the full anime name")
         if (!(typeof(args[1]) !== Number) | !args[1]) return message.channel.send("Error, Сould not find the requested song. Try to enter the full anime name")
         let nameTitle = message.content.slice(name.length + args[1].length + 7)
-        theme.generateEmbed(args[0], args[1], nameTitle)
+        theme.generateEmbed(args[0].toLowerCase(), Number(args[1]), nameTitle)
     }
     
     if (name === "anime") {
@@ -29,9 +29,17 @@ client.on("message", message => {
         jikan.getAnimeInformation(title)
     }
 
-    // if (name === "help") {
-    //     embed.helpCommand()
-    // }
+    if (name === "help") {
+        let embed = new MessageEmbed()
+            .setAuthor('Information')
+            .setDescription(`Author: <@475259737613795328>`)
+            .addField("Command:", "**g!music**: Get information about anime music\n**g!anime**: Get information about anime", true)
+            .addField('Example', '\n\n**g!music**: g!music op 2 black clover\n**g!anime**: g!anime galaxy express 999', true)
+            .setFooter("Attention! Some anime are not added to the base. If you did not receive a response from the bot or an error, then most likely you need to wait a bit :)")
+            .setColor("GREEN")
+
+        message.channel.send(embed)
+    }
 })
 
 client.login(process.env.TOKEN)
