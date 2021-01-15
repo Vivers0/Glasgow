@@ -1,7 +1,0 @@
-node_modules
-.vscode
-test.js
-.env
-src/local-index.js
-pages.txt
-src/commands/Themes.*
