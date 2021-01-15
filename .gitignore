@@ -1,2 +1,3 @@
-node_moduler
+node_modules
 .vscode
+src/config.example.json
